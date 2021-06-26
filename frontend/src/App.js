@@ -1,10 +1,13 @@
 import "./App.css";
 import Router from "./pages/Router";
+import ContextProvider from "./components/ContextProvider";
 
 function App() {
   return (
     <div className="App">
-      <Router />
+      <ContextProvider>
+        <Router />
+      </ContextProvider>
     </div>
   );
 }

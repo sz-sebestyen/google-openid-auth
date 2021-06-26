@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { Context } from "../context";
 import { useHistory } from "react-router-dom";
 import useQuery from "../hooks/useQuery";
 import jwt_decode from "jwt-decode";
 
 function Login() {
+  const [, setContext] = useContext(Context);
   const history = useHistory();
   const query = useQuery();
 
@@ -25,6 +27,7 @@ function Login() {
       console.log("token: ", decoded);
 
       localStorage.setItem("token", json.token);
+      setContext(decoded);
       history.push("/", { login: json, decoded });
     }
   };

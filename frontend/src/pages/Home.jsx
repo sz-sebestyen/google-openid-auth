@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../context";
 
 const CLIENT_ID =
   "427486198336-e44i9apd8ihk8gutb4kdot7v8gog2f74.apps.googleusercontent.com";
 
 function Home() {
+  const [context, setContext] = useContext(Context);
   const [dto, setDto] = useState();
 
   const getMessage = async (type) => {
@@ -12,7 +14,7 @@ function Home() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${localStorage.getItem("jwt")}`,
+          authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       const json = await res.json();
@@ -30,12 +32,26 @@ function Home() {
     window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=code&scope=openid email&redirect_uri=http://localhost:3000/login&prompt=select_account`;
   };
 
+  const logout = () => {
+    localStorage.removeItem("token");
+    setContext();
+  };
+
   return (
     <div>
       <h1>Home</h1>
+
+      <div>
+        {!context ? (
+          <button onClick={login}>Login</button>
+        ) : (
+          <button onClick={logout}>Logout</button>
+        )}
+      </div>
+
       <button onClick={getPublic}>Public</button>
-      <button onClick={getPrivate}>Private</button>
-      <button onClick={login}>Login</button>
+      {context && <button onClick={getPrivate}>Private</button>}
+
       {dto && (
         <div>
           <div>Response:</div>

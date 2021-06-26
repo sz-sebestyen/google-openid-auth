@@ -8,7 +8,7 @@ module.exports = async function getPrivateMessage(req, res, next) {
   jwt.verify(token, JWT_SECRET, async (err, decoded) => {
     if (err) return res.status(401).json("Unauthorized!");
 
-    console.log("user id: ", decoded.id);
+    console.log("auth sub : ", decoded.sub);
 
     const message = await Message.findOne(
       { route: "private" },
