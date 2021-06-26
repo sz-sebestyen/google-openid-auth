@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import useQuery from "../hooks/useQuery";
 import jwt_decode from "jwt-decode";
 
 function Login() {
+  const history = useHistory();
   const query = useQuery();
 
   const code = query.get("code");
@@ -18,8 +20,12 @@ function Login() {
 
     const json = await res.json();
 
-    if (json.jwt) {
-      console.log("jwt: ", jwt_decode(json.jwt));
+    if (json.token) {
+      const decoded = jwt_decode(json.token);
+      console.log("token: ", decoded);
+
+      localStorage.setItem("token", json.token);
+      history.push("/", { login: json, decoded });
     }
   };
 
