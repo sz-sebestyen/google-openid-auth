@@ -27,7 +27,7 @@ function Home() {
   const getPublic = () => getMessage("public");
 
   const login = () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=code&scope=openid email&redirect_uri=http://localhost:3000/login`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=code&scope=openid email&redirect_uri=http://localhost:3000/login&prompt=select_account`;
   };
 
   return (
